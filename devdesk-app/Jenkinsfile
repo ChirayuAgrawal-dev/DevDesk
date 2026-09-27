@@ -21,7 +21,9 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t cloud-app .'
+                dir('devdesk-app'){
+                  sh 'docker build -t cloud-app .'
+                }    
             }
         }
         stage('Deploy') {
