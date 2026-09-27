@@ -38,7 +38,7 @@ HTML_TEMPLATE = """
 """
 
 @app.route("/")
-def home():
+def index():
     pending = sum(1 for t in tickets if t["status"] == "Pending")
     return render_template_string(HTML_TEMPLATE, tickets=tickets, pending=pending, commit=COMMIT)
 
@@ -51,6 +51,7 @@ def submit_ticket():
         return "All fields are required", 400
     tickets.append({"id": len(tickets) + 1, "student_name": student_name, "lab_number": lab_number, "issue": issue, "status": "Pending"})
     return redirect("/")
+
 
 @app.route("/api/tickets")
 def api_tickets():
