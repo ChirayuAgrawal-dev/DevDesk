@@ -8,13 +8,15 @@ pipeline {
         }
         stage('Lint & Test') {
             steps {
-                sh '''
+                dir('devdesk-app'){
+                  sh '''
                     python3 -m venv venv || true
                     . venv/bin/activate
                     pip install -r requirements.txt
                     flake8 --max-line-length=120 --exclude=venv .
                     pytest -v
                 '''
+                 ]   
             }
         }
         stage('Build') {
