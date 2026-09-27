@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ChirayuAgrawal-dev/DevDesk.git'
+            }
+        }
+        stage('Lint & Test') {
+            steps {
+                sh '''
+                    python3 -m venv venv || true
+                    . venv/bin/activate
+                    pip install -r requirements.txt
+                    flake8 --max-line-length=120 --exclude=venv .
+                    pytest -v
+                '''
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker build -t cloud-app .'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker rm -f cloud-app || true'
+                sh 'docker run -d --name cloud-app -p 5000:5000 cloud-app'
+            }
+        }
+    }
+}
