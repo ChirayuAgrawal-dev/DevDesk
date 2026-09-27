@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template_string, request, redirect, jsonify
+from flask import Flask, render_template_string, request, redirect, jsonify, url_for
 
 app = Flask(__name__)
 tickets = []
@@ -22,8 +22,7 @@ HTML_TEMPLATE = """
     <ul>
         {% for ticket in tickets %}
         <li>
-          #{{ ticket.id }} - {{ ticket.name }} ({{ ticket.room }}): {{ ticket.issue }} 
-          <span>[{{ ticket.status }}]</span>
+          #{{ ticket.id }} - {{ ticket.name }} ({{ ticket.room }}): {{ ticket.issue }} <span>[{{ ticket.status }}]</span>
           {% if ticket.status == 'Pending' %}
           <form action="/resolve/{{ ticket.id }}" method="POST" style="display:inline;">
           <button type="submit" style="margin-left: 10px;">Resolve</button>
