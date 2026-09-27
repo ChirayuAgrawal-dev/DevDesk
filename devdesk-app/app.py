@@ -55,5 +55,13 @@ def api_tickets():
 def health():
     return {"status": "ok", "commit": COMMIT}
 
+@app.route('/resolve/<int:ticket_id>', methods=['POST'])
+def resolve_ticket(ticket_id):
+    # Logic to find the ticket and mark it as resolved
+    for ticket in tickets:
+        if ticket['id'] == ticket_id:
+            ticket['status'] = 'Resolved'
+    return redirect(url_for('index'))
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
