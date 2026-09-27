@@ -16,7 +16,7 @@ pipeline {
                     flake8 --max-line-length=120 --exclude=venv .
                     pytest -v
                 '''
-                 ]   
+                 }  
             }
         }
         stage('Build') {
