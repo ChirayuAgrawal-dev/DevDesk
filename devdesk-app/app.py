@@ -20,12 +20,18 @@ HTML_TEMPLATE = """
     </form>
     <h2>Active Ticket Log</h2>
     <ul>
-        {% for t in tickets %}
-            <li>#{{ t.id }} - {{ t.student_name }} ({{ t.lab_number }}): {{ t.issue }} [<em>{{ t.status }}</em>]</li>
-        {% else %}
-            <li>No tickets submitted yet.</li>
-        {% endfor %}
-    </ul>
+        {% for ticket in tickets %}
+        <li>
+          #{{ ticket.id }} - {{ ticket.name }} ({{ ticket.room }}): {{ ticket.issue }} 
+          <span>[{{ ticket.status }}]</span>
+          {% if ticket.status == 'Pending' %}
+          <form action="/resolve/{{ ticket.id }}" method="POST" style="display:inline;">
+          <button type="submit" style="margin-left: 10px;">Resolve</button>
+        </form>
+      {% endif %}
+    </li>
+   {% endfor %}
+  </ul>
     <hr>
     <footer>CI/CD Pipeline Version 1 - commit {{ commit }}</footer>
 </body>
